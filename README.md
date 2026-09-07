@@ -5,7 +5,7 @@ Cascade is a simple c++ implementation of Klondike Solitaire. The goal was to cr
 The code might suck. In fact, there is a high probability that it does. If you happen to open display.cpp... I'm sorry.
 
 
-```markdown
+
 ## Installation
 
 ### Method 1: Install via `.deb` Package (Recommended)
@@ -21,21 +21,20 @@ cd Cascade
 sudo apt update
 sudo apt install ./.deb/cascade_1.0.0_amd64.deb
 
-```
+
 
 Run Cascade from anywhere via the terminal or through your desktop application launcher:
 
 ```bash
 cascade
 
-```
 
 To remove the package later:
 
 ```bash
 sudo apt remove cascade
 
-```
+
 
 ---
 
@@ -58,7 +57,6 @@ sudo dnf install gcc-c++ make lxterminal
 # Arch Linux
 sudo pacman -S base-devel lxterminal
 
-```
 
 #### 2. Compile
 
@@ -67,7 +65,6 @@ From the project root:
 ```bash
 make
 
-```
 
 The compiled binary will be generated inside the `bin/` directory.
 
@@ -76,9 +73,7 @@ The compiled binary will be generated inside the `bin/` directory.
 ```bash
 ./bin/cascade
 
-```
 
-```
 
 <ElicitationsGroup message="Would you like to expand the README further?">
   <Elicitation label="Draft Controls and Gameplay section" query="Write a Controls and Keybindings section for the Cascade README based on interface.md."/>
