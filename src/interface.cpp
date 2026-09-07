@@ -67,7 +67,7 @@ void run_keyboard_listener(GameState& state) {
         }
 
         if (state.won || state.deadlocked) {
-            if (key == 'a' || key == 'A') {
+            if (key == 'a' || key == 'A' || key == 1) {
                 reset_game(state);
                 display_game(state);
             } else if (key == 'q' || key == 'Q' || key == 17) {
@@ -77,6 +77,10 @@ void run_keyboard_listener(GameState& state) {
         }
 
         switch (key) {
+            case 1: // Ctrl+A (ASCII 1): Abort current game and reset board
+                reset_game(state);
+                break;
+
             case 17: // Ctrl+Q (ASCII 17): Safe quit
                 state.running = false;
                 break;

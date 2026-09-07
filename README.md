@@ -17,7 +17,7 @@ cd Cascade
 
 # Install the prebuilt package
 sudo apt update
-sudo apt install ./.deb/cascade_1.0.0_amd64.deb
+sudo apt install ./.deb/cascade_1.1.0_amd64.deb
 ```
 
 Run Cascade from anywhere via the terminal or through your desktop application launcher:

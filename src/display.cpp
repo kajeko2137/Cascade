@@ -135,6 +135,7 @@ static vector<string> render_controls_box(const GameState& state, int term_width
             {" * ",    "To Foundation"},
             {" / ",    "Auto Sweep"},
             {" P ",    "Toggle Profile"},
+            {"Ctrl+A", "Abort / Reset"},
             {"Ctrl+Q", "Quit Game"}
         };
     } else {
@@ -148,6 +149,7 @@ static vector<string> render_controls_box(const GameState& state, int term_width
             {" = ",    "To Foundation"},
             {" + ",    "Auto Sweep"},
             {" P ",    "Toggle Profile"},
+            {"Ctrl+A", "Abort / Reset"},
             {"Ctrl+Q", "Quit Game"}
         };
     }
