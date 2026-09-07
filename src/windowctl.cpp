@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <limits.h>
 #include <sys/ioctl.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -47,7 +48,7 @@ void setup_lxterminal_cascade_profile() {
 
     while (getline(in, line)) {
         if (line.rfind("fontname=", 0) == 0) {
-            // e.g. fontname=Monospace 10 -> fontname=Monospace 20 (200%)
+            // e.g. fontname=Monospace 10 -> fontname=Monospace 15 (150%)
             string rest = line.substr(9);
             size_t last_space = rest.rfind(' ');
             if (last_space != string::npos) {
@@ -55,15 +56,15 @@ void setup_lxterminal_cascade_profile() {
                 string size_str = rest.substr(last_space + 1);
                 try {
                     int size = stoi(size_str);
-                    int new_size = size * 2;
+                    int new_size = max(1, (size * 3) / 2); // 150%
                     line = "fontname=" + name + " " + to_string(new_size);
                     found_font = true;
                 } catch (...) {
-                    line = "fontname=Monospace 20";
+                    line = "fontname=Monospace 15";
                     found_font = true;
                 }
             } else {
-                line = "fontname=Monospace 20";
+                line = "fontname=Monospace 15";
                 found_font = true;
             }
         }
@@ -73,7 +74,7 @@ void setup_lxterminal_cascade_profile() {
 
     if (!found_font) {
         lines.push_back("[general]");
-        lines.push_back("fontname=Monospace 20");
+        lines.push_back("fontname=Monospace 15");
     }
 
     ofstream out(cascade_conf);
@@ -86,6 +87,7 @@ void setup_lxterminal_cascade_profile() {
 }
 
 void open_in_new_fullscreen_window(int argc, char* argv[]) {
+    (void)argc;
     char exe_buf[PATH_MAX];
     ssize_t len = readlink("/proc/self/exe", exe_buf, sizeof(exe_buf) - 1);
     string exe_path;
@@ -103,7 +105,7 @@ void open_in_new_fullscreen_window(int argc, char* argv[]) {
     } else if (system("which x-terminal-emulator >/dev/null 2>&1") == 0) {
         term_cmd = "CASCADE_WINDOW=1 x-terminal-emulator -t Cascade -e \"" + exe_path + " --in-window\" &";
     } else if (system("which xterm >/dev/null 2>&1") == 0) {
-        term_cmd = "CASCADE_WINDOW=1 xterm -fa Monospace -fs 20 -fullscreen -title Cascade -e \"" + exe_path + " --in-window\" &";
+        term_cmd = "CASCADE_WINDOW=1 xterm -fa Monospace -fs 15 -fullscreen -title Cascade -e \"" + exe_path + " --in-window\" &";
     }
 
     if (!term_cmd.empty()) {
