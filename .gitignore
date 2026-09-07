@@ -1,0 +1,17 @@
+# Object and build directories
+obj/
+*.o
+*.d
+
+# Binaries
+bin/*
+!bin/.gitkeep
+main
+
+# Save data & Leaderboard
+leaderboard.txt
+
+# Temporary files
+*~
+*.swp
+.DS_Store
