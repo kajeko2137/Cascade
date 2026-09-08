@@ -1,6 +1,9 @@
 # Cascade
 Cascade is a simple c++ implementation of Klondike Solitaire. The goal was to create an implementation that is terminal and keyboard focused.
 
+<img width="2558" height="1435" alt="image" src="https://github.com/user-attachments/assets/15e8677b-71fa-454a-b263-5314b347bfb0" />
+
+
 # Disclaimer
 The code might suck. In fact, there is a high probability that it does. If you happen to open display.cpp... I'm sorry.
 
