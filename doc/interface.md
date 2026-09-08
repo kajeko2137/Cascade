@@ -21,8 +21,8 @@
 | **`1` – `7**` | Select / Target Column | Tap once to latch the bottom card of a column; tap a second column to drop the active selection. |
 | **`0`** | Select Waste | Latches the current face-up card in the waste pile as the active moving card. |
 | **`-`** | Draw from Stock | Flips the top card from the stock pile into the waste; recycles waste back to stock if empty. |
-| **`W`** | Expand Selection | Lifts the selection boundary one card higher up the column cascade. |
-| **`S`** | Shrink Selection | Lowers the selection boundary one card back down toward the column base. |
+| **`O`** | Expand Selection | Lifts the selection boundary one card higher up the column cascade. |
+| **`L`** | Shrink Selection | Lowers the selection boundary one card back down toward the column base. |
 | **`Esc`** | Cancel Selection | Aborts the active move and returns the cursor state to neutral. |
 | **`=`** | Send to Foundation | Directs the currently selected card into an eligible foundation slot. |
 | **`+`** *(Shift + `=`) | Auto-Foundation Sweep | Evaluates the board and transfers all eligible cards into their foundations in sequence. |

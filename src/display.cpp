@@ -144,8 +144,8 @@ static vector<string> render_controls_box(const GameState& state, int term_width
             {" 0 ",    "Select Waste"},
             {" - ",    "Draw Stock"},
             {"Esc",    "Cancel Move"},
-            {" W ",    "Expand Stack"},
-            {" S ",    "Shrink Stack"},
+            {" O ",    "Expand Stack"},
+            {" L ",    "Shrink Stack"},
             {" = ",    "To Foundation"},
             {" + ",    "Auto Sweep"},
             {" P ",    "Toggle Profile"},
@@ -220,6 +220,38 @@ static vector<string> render_controls_box(const GameState& state, int term_width
     lines.push_back(bot_border);
 
     return lines;
+}
+
+void display_start_screen() {
+    int term_width = get_terminal_width();
+    int term_height = get_terminal_height();
+
+    int banner_len = 56;
+    int banner_margin = max(0, (term_width - banner_len) / 2);
+
+    string prompt = "Press any key to start";
+    int prompt_len = static_cast<int>(prompt.length());
+    int prompt_margin = max(0, (term_width - prompt_len) / 2);
+
+    int content_height = 9; // 6 lines banner + 2 lines gap + 1 line prompt
+    int top_margin = max(0, (term_height - content_height) / 2);
+
+    ostringstream out;
+    out << "\033[2J\033[H";
+
+    for (int i = 0; i < top_margin; ++i) {
+        out << "\n";
+    }
+
+    for (size_t i = 0; i < BANNER.size(); ++i) {
+        out << string(banner_margin, ' ') << COLOR_BLUE << BANNER[i] << COLOR_RESET << "\n";
+    }
+
+    out << "\n\n";
+
+    out << string(prompt_margin, ' ') << COLOR_WHITE << prompt << COLOR_RESET << "\n";
+
+    cout << out.str() << flush;
 }
 
 void display_card(const Column& col, size_t card_index) {

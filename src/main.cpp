@@ -29,6 +29,11 @@ int main(int argc, char* argv[]) {
 
     GameState state = init_game();
 
+    // Show starting screen with banner and prompt
+    if (!show_start_screen(state)) {
+        return 0;
+    }
+
     // Clear screen and draw the game centered at the final fullscreen dimensions
     cout << "\033[2J\033[H" << flush;
     display_game(state);

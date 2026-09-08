@@ -27,6 +27,44 @@ bool should_spawn_window(int argc, char* argv[]) {
     return true;
 }
 
+static bool get_resolution_xrandr(int& width, int& height) {
+    FILE* fp = popen("xrandr --current 2>/dev/null", "r");
+    if (!fp) return false;
+
+    char buf[256];
+    bool found = false;
+    while (fgets(buf, sizeof(buf), fp)) {
+        string s(buf);
+        size_t pos = s.find("current ");
+        if (pos != string::npos) {
+            size_t x_pos = s.find(" x ", pos);
+            if (x_pos != string::npos) {
+                try {
+                    width = stoi(s.substr(pos + 8, x_pos - (pos + 8)));
+                    height = stoi(s.substr(x_pos + 3));
+                    found = (width > 0 && height > 0);
+                    break;
+                } catch (...) {}
+            }
+        }
+    }
+    pclose(fp);
+    return found;
+}
+
+static int get_font_scale_percent() {
+    int width = 0, height = 0;
+    if (!get_resolution_xrandr(width, height)) {
+        return 150; // Fallback to 1080p scale
+    }
+
+    // 1080p is 1920x1080. If larger than 1080p, use 200%, otherwise 150%
+    if (width > 1920 || height > 1080) {
+        return 200;
+    }
+    return 150;
+}
+
 void setup_lxterminal_cascade_profile() {
     const char* home = getenv("HOME");
     if (!home) return;
@@ -42,13 +80,15 @@ void setup_lxterminal_cascade_profile() {
         in.open("/usr/share/lxterminal/lxterminal.conf");
     }
 
+    int scale_percent = get_font_scale_percent();
+    int fallback_size = (scale_percent >= 200) ? 20 : 15;
+
     vector<string> lines;
     string line;
     bool found_font = false;
 
     while (getline(in, line)) {
         if (line.rfind("fontname=", 0) == 0) {
-            // e.g. fontname=Monospace 10 -> fontname=Monospace 15 (150%)
             string rest = line.substr(9);
             size_t last_space = rest.rfind(' ');
             if (last_space != string::npos) {
@@ -56,15 +96,15 @@ void setup_lxterminal_cascade_profile() {
                 string size_str = rest.substr(last_space + 1);
                 try {
                     int size = stoi(size_str);
-                    int new_size = max(1, (size * 3) / 2); // 150%
+                    int new_size = max(1, (size * scale_percent) / 100);
                     line = "fontname=" + name + " " + to_string(new_size);
                     found_font = true;
                 } catch (...) {
-                    line = "fontname=Monospace 15";
+                    line = "fontname=Monospace " + to_string(fallback_size);
                     found_font = true;
                 }
             } else {
-                line = "fontname=Monospace 15";
+                line = "fontname=Monospace " + to_string(fallback_size);
                 found_font = true;
             }
         }
@@ -74,7 +114,7 @@ void setup_lxterminal_cascade_profile() {
 
     if (!found_font) {
         lines.push_back("[general]");
-        lines.push_back("fontname=Monospace 15");
+        lines.push_back("fontname=Monospace " + to_string(fallback_size));
     }
 
     ofstream out(cascade_conf);
@@ -105,7 +145,9 @@ void open_in_new_fullscreen_window(int argc, char* argv[]) {
     } else if (system("which x-terminal-emulator >/dev/null 2>&1") == 0) {
         term_cmd = "CASCADE_WINDOW=1 x-terminal-emulator -t Cascade -e \"" + exe_path + " --in-window\" &";
     } else if (system("which xterm >/dev/null 2>&1") == 0) {
-        term_cmd = "CASCADE_WINDOW=1 xterm -fa Monospace -fs 15 -fullscreen -title Cascade -e \"" + exe_path + " --in-window\" &";
+        int scale_percent = get_font_scale_percent();
+        int fs_size = (scale_percent >= 200) ? 20 : 15;
+        term_cmd = "CASCADE_WINDOW=1 xterm -fa Monospace -fs " + to_string(fs_size) + " -fullscreen -title Cascade -e \"" + exe_path + " --in-window\" &";
     }
 
     if (!term_cmd.empty()) {

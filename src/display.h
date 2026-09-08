@@ -7,6 +7,7 @@
 
 using namespace std;
 
+void display_start_screen();
 void display_card(const Column& col, size_t card_index);
 void display_game(const GameState& state);
 void update_timer_display(const GameState& state);

@@ -17,7 +17,7 @@ cd Cascade
 
 # Install the prebuilt package
 sudo apt update
-sudo apt install ./.deb/cascade_1.1.0_amd64.deb
+sudo apt install ./.deb/cascade_1.2.0_amd64.deb
 ```
 
 Run Cascade from anywhere via the terminal or through your desktop application launcher:
@@ -40,18 +40,18 @@ If you are running a non-Debian distribution or prefer compiling directly from t
 
 #### 1. Prerequisites
 
-Ensure you have a C++ compiler, `make`, and `lxterminal` installed:
+Ensure you have a C++ compiler, `make`, `lxterminal`, and `xrandr` installed:
 
 ```bash
 # Debian / Ubuntu / MX Linux
 sudo apt update
-sudo apt install build-essential lxterminal
+sudo apt install build-essential lxterminal x11-xserver-utils
 
 # Fedora / RHEL
-sudo dnf install gcc-c++ make lxterminal
+sudo dnf install gcc-c++ make lxterminal xorg-x11-server-utils
 
 # Arch Linux
-sudo pacman -S base-devel lxterminal
+sudo pacman -S base-devel lxterminal xorg-xrandr
 ```
 
 #### 2. Compile

@@ -5,6 +5,7 @@
 #include <termios.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
+#include <chrono>
 
 using namespace std;
 
@@ -41,6 +42,41 @@ static char read_key() {
         return 0;
     }
     return c;
+}
+
+bool show_start_screen(GameState& state) {
+    enable_raw_mode();
+
+    struct winsize last_ws = {0, 0, 0, 0};
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &last_ws);
+
+    display_start_screen();
+
+    while (state.running) {
+        char key = read_key();
+
+        if (key == 0) {
+            struct winsize curr_ws;
+            if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &curr_ws) == 0 &&
+                (curr_ws.ws_col != last_ws.ws_col || curr_ws.ws_row != last_ws.ws_row)) {
+                last_ws = curr_ws;
+                display_start_screen();
+            }
+            continue;
+        }
+
+        if (key == 17) { // Ctrl+Q (ASCII 17): Safe quit
+            state.running = false;
+            return false;
+        }
+
+        tcflush(STDIN_FILENO, TCIFLUSH);
+        state.start_time = chrono::steady_clock::now();
+        state.elapsed_seconds = 0;
+        return true;
+    }
+
+    return false;
 }
 
 void run_keyboard_listener(GameState& state) {
@@ -130,12 +166,12 @@ void run_keyboard_listener(GameState& state) {
                         case '-':
                             draw_from_stock(state);
                             break;
-                        case 'w':
-                        case 'W':
+                        case 'o':
+                        case 'O':
                             expand_selection(state);
                             break;
-                        case 's':
-                        case 'S':
+                        case 'l':
+                        case 'L':
                             shrink_selection(state);
                             break;
                         case '=':
