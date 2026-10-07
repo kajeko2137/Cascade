@@ -2,7 +2,7 @@
 
 | Key | Action | Function & Mechanics |
 | --- | --- | --- |
-| **`1` – `7**` | Select / Target Column | Tap once to latch the bottom card of a column; tap a second column to drop the active selection. |
+| **`1` – `4`, `Q`, `W`, `E`** | Select / Target Column | Columns 1-4 use the number row; columns 5, 6 and 7 use `Q`, `W` and `E`. Tap once to latch the bottom card of a column; tap a second column to drop the active selection. |
 | **`0`** | Select Waste | Latches the current face-up card in the waste pile as the active moving card. |
 | **`.`** | Draw from Stock | Flips the top card from the stock pile into the waste; recycles waste back to stock if empty. |
 | **`+`** | Expand Selection | Increases the moving stack height by selecting the next face-up card upward in the cascade. |
@@ -18,7 +18,7 @@
 
 | Key | Action | Function & Mechanics |
 | --- | --- | --- |
-| **`1` – `7**` | Select / Target Column | Tap once to latch the bottom card of a column; tap a second column to drop the active selection. |
+| **`1` – `4`, `Q`, `W`, `E`** | Select / Target Column | Columns 1-4 use the number row; columns 5, 6 and 7 use `Q`, `W` and `E`. Tap once to latch the bottom card of a column; tap a second column to drop the active selection. |
 | **`0`** | Select Waste | Latches the current face-up card in the waste pile as the active moving card. |
 | **`-`** | Draw from Stock | Flips the top card from the stock pile into the waste; recycles waste back to stock if empty. |
 | **`O`** | Expand Selection | Lifts the selection boundary one card higher up the column cascade. |

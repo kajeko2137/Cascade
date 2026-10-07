@@ -126,7 +126,8 @@ static vector<string> render_controls_box(const GameState& state, int term_width
     vector<ControlEntry> items;
     if (state.profile == PROFILE_NUMPAD) {
         items = {
-            {"1-7",    "Select / Move Col"},
+            {"1-4",    "Select / Move 1-4"},
+            {"QWE",    "Select / Move 5-7"},
             {" 0 ",    "Select Waste"},
             {" . ",    "Draw Stock"},
             {" - ",    "Cancel Move"},
@@ -140,7 +141,8 @@ static vector<string> render_controls_box(const GameState& state, int term_width
         };
     } else {
         items = {
-            {"1-7",    "Select / Move Col"},
+            {"1-4",    "Select / Move 1-4"},
+            {"QWE",    "Select / Move 5-7"},
             {" 0 ",    "Select Waste"},
             {" - ",    "Draw Stock"},
             {"Esc",    "Cancel Move"},

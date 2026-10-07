@@ -44,6 +44,23 @@ static char read_key() {
     return c;
 }
 
+// Maps a column-selection key to a tableau column index (0-6).
+// Columns 1-4 use the number row; columns 5, 6 and 7 use Q, W and E.
+// Returns -1 for any key that does not target a column.
+static int column_key_to_index(char key) {
+    if (key >= '1' && key <= '4') {
+        return key - '1';
+    }
+
+    char lower = (key >= 'A' && key <= 'Z') ? static_cast<char>(key - 'A' + 'a') : key;
+    switch (lower) {
+        case 'q': return 4;
+        case 'w': return 5;
+        case 'e': return 6;
+        default:  return -1;
+    }
+}
+
 bool show_start_screen(GameState& state) {
     enable_raw_mode();
 
@@ -134,10 +151,16 @@ void run_keyboard_listener(GameState& state) {
             case '2':
             case '3':
             case '4':
-            case '5':
-            case '6':
-            case '7': {
-                int col_idx = key - '1';
+            case 'q':
+            case 'Q':
+            case 'w':
+            case 'W':
+            case 'e':
+            case 'E': {
+                int col_idx = column_key_to_index(key);
+                if (col_idx < 0) {
+                    break;
+                }
                 if (!state.has_selection) {
                     select_column_top(state, col_idx);
                 } else {
